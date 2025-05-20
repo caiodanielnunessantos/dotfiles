@@ -1,0 +1,24 @@
+{
+    "$schema": "/home/caio/forks/emmylua-analyzer-rust/crates/emmylua_code_analysis/resources/schema.json",
+    "completion": {
+        "enable": true,
+        "autoRequire": true
+    },
+    "signature": {
+        "detailSignatureHelper": true
+    },
+    "runtime": {
+        "requirePattern": [
+            "lua/?.lua",
+            "lua/?/init.lua"
+        ],
+        "version": "LuaJIT"
+    },
+    "workspace": {
+        "library": [
+            "/home/caio/.config/nvim",
+            "/home/caio/.local/share/nvim",
+            "/usr/local/share/nvim/runtime"
+        ]
+    }
+}
