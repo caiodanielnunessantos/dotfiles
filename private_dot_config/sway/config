@@ -1,0 +1,7 @@
+include /etc/sway/config.d/*
+include colors.conf
+include theme.conf
+include input.conf
+include output.conf
+include execs.conf
+

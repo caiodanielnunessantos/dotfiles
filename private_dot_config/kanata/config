@@ -1,0 +1,76 @@
+
+(defcfg
+    linux-dev /dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd
+    process-unmapped-keys yes
+    allow-hardware-repeat false
+    danger-enable-cmd yes)
+(deflocalkeys-linux
+    apostrof 41
+    backslash 86
+    semicolon 53
+    slash 89
+    ccedilha 39
+    agudo 26
+    tilde 40
+    brleft 27
+    brright 43
+)
+(defsrc lmet menu f1 kp1
+f2 kp2
+f3 kp3
+f4 kp4
+f5 kp5
+f6 kp6
+f7 kp7
+f8 kp8
+f9 kp9)
+(deflayer default (multi (layer-switch sway) (cmd bash -c "echo on >/tmp/sway-indicator-socket")) (multi (layer-switch sway) (cmd bash -c "echo on >/tmp/sway-indicator-socket")) kp1 f1
+kp2 f2
+kp3 f3
+kp4 f4
+kp5 f5
+kp6 f6
+kp7 f7
+kp8 f8
+kp9 f9)
+(deflayermap (sway)
+    h (fork (cmd swaymsg focus left) (fork (cmd swaymsg move left 20px) (cmd swaymsg move left 1px) (lctl rctl)) (lsft rsft))
+    j (fork (cmd swaymsg focus down) (fork (cmd swaymsg move down 20px) (cmd swaymsg move down 1px) (lctl rctl)) (lsft rsft))
+    k (fork (cmd swaymsg focus up) (fork (cmd swaymsg move up 20px) (cmd swaymsg move up 1px) (lctl rctl)) (lsft rsft))
+    l (fork (cmd swaymsg focus right) (fork (cmd swaymsg move right 20px) (cmd swaymsg move right 1px) (lctl rctl)) (lsft rsft))
+    g (fork (cmd swaymsg resize grow width 1px) (cmd swaymsg resize grow width 20px) (lsft rsft))
+    s (fork (cmd swaymsg resize shrink width 1px) (cmd swaymsg resize shrink width 20px) (lsft rsft))
+    brleft (fork (cmd swaymsg resize grow height 1px) (cmd swaymsg resize grow height 20px) (lsft rsft))
+    brright (fork (cmd swaymsg resize shrink height 1px) (cmd swaymsg resize shrink height 20px) (lsft rsft))
+    , (fork (cmd bash -c "/home/caio/.cargo/bin/sway-workspace-manager switch prev &>/dev/null || /home/caio/.cargo/bin/sway-workspace-manager create prev &>/dev/null") (cmd bash -c "/home/caio/.cargo/bin/sway-workspace-manager move prev &>/dev/null || /home/caio/.cargo/bin/sway-workspace-manager move-to-new prev &>/dev/null") (lsft rsft))
+    . (fork (cmd bash -c "/home/caio/.cargo/bin/sway-workspace-manager switch next &>/dev/null || /home/caio/.cargo/bin/sway-workspace-manager create next &>/dev/null") (cmd bash -c "/home/caio/.cargo/bin/sway-workspace-manager move next &>/dev/null || /home/caio/.cargo/bin/sway-workspace-manager move-to-new next &>/dev/null") (lsft rsft))
+    u (cmd swaymsg exec -- kitty)
+    o (cmd swaymsg exec -- chromium)
+    p (cmd swaymsg exec -- google-chrome-stable)
+    i (cmd swaymsg exec -- kitty nvim-forever)
+    y (cmd swaymsg exec -- kitty yazi)
+    t (cmd swaymsg exec -- kitty top)
+    z (cmd swaymsg exec -- zathura)
+    v (cmd swaymsg exec -- pavucontrol-qt)
+    f12 (cmd swaymsg exec -- fnotctl mode -t silent)
+    f11 (cmd swaymsg exec -- fnotctl dismiss all)
+    f9 (cmd swaymsg exec -- fnotctl dismiss)
+    f10 (cmd swaymsg exec -- fnotctl restore)
+    ret (multi (cmd swaymsg exec -- fuzzel) (layer-switch default))
+    tilde (cmd swaymsg floating toggle)
+    agudo (cmd swaymsg border toggle)
+    f5 (cmd swaymsg reload)
+    
+    bspc (cmd swaymsg kill)
+    lsft lsft
+    rsft rsft
+    lctl lctl
+    rctl rctl
+    lalt lalt
+    ralt ralt
+    esc (multi (layer-switch default) (cmd bash -c "echo off >/tmp/sway-indicator-socket"))
+    caps (multi (layer-switch default) (cmd bash -c "echo off >/tmp/sway-indicator-socket"))
+    lmet (multi (layer-switch default) (cmd bash -c "echo off >/tmp/sway-indicator-socket"))
+    menu (multi (layer-switch default) (cmd bash -c "echo off >/tmp/sway-indicator-socket"))
+    ___ XX)
+
