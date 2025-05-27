@@ -1,0 +1,102 @@
+_s() {
+    [[ ! -f "$1" ]] && printf 'Could not find %s\n' "$1" || source "$1" ${@:2}
+}
+
+_z() {
+    _s "/home/caio/.local/zsh-plugins/$1/$1.plugin.zsh" $2
+}
+
+_oz() {
+    _s "/home/caio/.local/zsh-plugins/ohmyzsh/plugins/$1/$1.plugin.zsh" $2
+}
+__prepend_fpath() {
+    case ":$FPATH:" in
+    *:"$1":*) ;;
+    *)
+        FPATH="$1${FPATH:+:$FPATH}"
+        ;;
+    esac
+}
+__prepend_fpath '/home/caio/.zsh/completions'
+__prepend_fpath '/home/caio/.local/share/zinit/completions'
+export FPATH
+source ~/.local/zsh-plugins/colors.zsh
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=100000
+SAVEHIST=10000000
+setopt sharehistory
+setopt noclobber
+setopt extendedglob
+export PS2=
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_USE_ASYNC=1
+export EDITOR=nvim
+export GOPROXY=direct
+export PAGER=less
+export BROWSER=chromium
+export MAN_KEEP_FORMATTING=1
+export LESS="--RAW-CONTROL-CHARS --force --quit-if-one-screen --search-skip-screen"
+debug_csc() { sed -e $'s;\e\\[;<CSC>;g' }
+
+ml() { $@ | less --quit-if-one-screen --raw-control-chars }
+l() { ml lsd -AFl --size short --date=+%Y/%m/%d\ %H:%M:%S 2>/dev/null --color=always --icon=always }
+l1() { ml lsd -AFl --tree --depth 2 --size short --date=+%Y/%m/%d\ %H:%M:%S 2>/dev/null --color=always --icon=always }
+l2() { ml lsd -AFl --tree --depth 3 --size short --date=+%Y/%m/%d\ %H:%M:%S 2>/dev/null --color=always --icon=always }
+l3() { ml lsd -AFl --tree --depth 4 --size short --date=+%Y/%m/%d\ %H:%M:%S 2>/dev/null --color=always --icon=always }
+l4() { ml lsd -AFl --tree --depth 5 --size short --date=+%Y/%m/%d\ %H:%M:%S 2>/dev/null --color=always --icon=always }
+l5() { ml lsd -AFl --tree --depth 6 --size short --date=+%Y/%m/%d\ %H:%M:%S 2>/dev/null --color=always --icon=always }
+la() { ml lsd -AFl --tree --size short --date=+%Y/%m/%d\ %H:%M:%S 2>/dev/null --color=always --icon=always }
+gr() { ml grep --colour --ignore-case --contex=5 $@ }
+alias c="z"
+alias chrome=google-chrome-stable
+what() { apropos --long --regex ".*$1.*" }
+bindkey -rpM viins '^[^['
+
+zstyle ':completion:*' auto-description 'S %d...'
+zstyle ':completion:*' completer _expand _complete
+zstyle ':completion:*' file-sort name
+zstyle ':completion:*' format 'Completing %d...'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'r:|[._-]=** r:|=**' 'l:|=* r:|=*'
+zstyle ':completion:*' menu select=0
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose true
+zstyle :compinstall filename '/home/caio/.zshrc'
+
+autoload -U compaudit compinit zrecompile colors
+compaudit
+compinit
+zrecompile
+colors
+eval "$(zoxide init zsh)"
+
+_s /home/caio/.p10k.zsh
+_z zsh-autosuggestions
+_s /home/caio/.local/zsh-plugins/powerlevel10k/powerlevel10k.zsh-theme
+_oz colored-man-pages
+_oz archlinux
+_oz systemd
+_oz zsh-navigation-tools
+_s /usr/share/doc/find-the-command/ftc.zsh noprompt noupdate quiet list_files
+_s /home/caio/.bun/_bun
+_z zsh-syntax-highlighting
+_z zsh-completions
+_z emoji-cli
+
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+KEYTIMEOUT=1
+bindkey -R -M viins -r "^A"-"^C"
+bindkey -R -M viins -r "^E"-"^F"
+bindkey -M viins -r "^K"
+bindkey -R -M viins -r "^N"-"^P"
+bindkey -M viins -r "^T"
+bindkey -R -M viins -r "^Y"-"^Z"
+
+bindkey -M viins '^E' vi-end-of-line
+bindkey -M viins '^N' down-history
+bindkey -M viins '^P' up-history
+
+unset _s _z _oz __prepend_fpath

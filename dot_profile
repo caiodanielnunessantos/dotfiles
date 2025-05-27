@@ -1,0 +1,33 @@
+__append_path() {
+    case ":$PATH:" in
+    *:"$1":*) ;;
+    *)
+        PATH="${PATH:+$PATH:}$1"
+        ;;
+    esac
+}
+
+__prepend_path() {
+    case ":$PATH:" in
+    *:"$1":*) ;;
+    *)
+        PATH="$1${PATH:+:$PATH}"
+        ;;
+    esac
+}
+
+__prepend_path '/home/caio/.local/bin'
+__prepend_path '/home/caio/.cargo/bin'
+__prepend_path '/home/caio/.bun/bin'
+__prepend_path '/home/caio/.deno/bin'
+__prepend_path '/home/caio/go/bin'
+__prepend_path '/home/caio/bin'
+
+export PATH
+
+unset -f __append_path
+unset -f __prepend_path
+
+test $(tty) = '/dev/tty1' && (\
+    exec start-sway
+)
